@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WinHL7Client
 {
-    class TcpConnDestinationData
+    public class TcpConnDestinationData
     {
         public String Ip { get; set; }
 
