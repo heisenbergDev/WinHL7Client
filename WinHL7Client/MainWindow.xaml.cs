@@ -19,10 +19,10 @@ namespace WinHL7Client
 
         private void sendMessage(object sender, RoutedEventArgs e)
         {
-            IPEndPoint detinationConn = CreateIPEndPoint(destinationIPTextbox.Text, destinationPortTextbox.Text);
+            IPEndPoint destinationConn = CreateIPEndPoint(destinationIPTextbox.Text, destinationPortTextbox.Text);
             IMessage message = DecodeHL7Message(messageContent.Text);
 
-            String ackResponse = sendHL7MessageToIpPort(detinationConn, message);
+            String ackResponse = sendHL7MessageToIpPort(destinationConn, message);
 
             if (String.IsNullOrEmpty(ackResponse))
             {
