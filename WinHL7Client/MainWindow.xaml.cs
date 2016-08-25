@@ -31,7 +31,7 @@ namespace WinHL7Client
             else
             {
                 messageReceivedTextbox.Text = ackResponse;
-
+                ShowConnectionStatus(null);
             }
 
         }
@@ -51,8 +51,7 @@ namespace WinHL7Client
                 }
                 catch (Exception e)
                 {
-                    ConnectionStatus.AddConnectionStatus(e);
-                    ShowConnectionStatus(ConnectionStatus.Status);
+                    ShowConnectionStatus(e);
                 }
 
             }
@@ -70,8 +69,7 @@ namespace WinHL7Client
             }
             catch (Exception e)
             {
-                ConnectionStatus.AddConnectionStatus(e);
-                ShowConnectionStatus(ConnectionStatus.Status);
+                ShowConnectionStatus(e);
             }
 
             return encodedMessage;
@@ -88,8 +86,7 @@ namespace WinHL7Client
             }
             catch (Exception e)
             {
-                ConnectionStatus.AddConnectionStatus(e);
-                ShowConnectionStatus(ConnectionStatus.Status);
+                ShowConnectionStatus(e);
             }
 
             return decodedMessage;
@@ -106,18 +103,22 @@ namespace WinHL7Client
             }
             catch (Exception e)
             {
-                ConnectionStatus.AddConnectionStatus(e);
-                ShowConnectionStatus(ConnectionStatus.Status);
+                ShowConnectionStatus(e);
             }
             return destinationConn;
         }
 
-        private void ShowConnectionStatus(String textToShow)
+        private void ShowConnectionStatus(Exception exception)
         {
-            if (textToShow != null)
+            if (exception != null)
             {
-                connectionLogTextBox.Text = textToShow;
+                ConnectionStatus.AddConnectionStatus(exception);
             }
+            else
+            {
+                ConnectionStatus.CleanConnectionStatus();
+            }
+            connectionLogTextBox.Text = ConnectionStatus.Status;
         }
     }
 }

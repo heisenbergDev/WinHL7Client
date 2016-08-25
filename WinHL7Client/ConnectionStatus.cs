@@ -36,5 +36,10 @@ namespace WinHL7Client
         {
             Status = newStatus + "\n" + Status;
         }
+
+        public static void CleanConnectionStatus()
+        {
+            Status = "";
+        }
     }
 }
