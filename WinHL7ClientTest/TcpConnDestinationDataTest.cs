@@ -18,7 +18,7 @@ namespace WinHL7ClientTest
         {
             TcpConnDestinationData conn1 = new TcpConnDestinationData(goodIP, goodPortNumber);
 
-            Assert.IsTrue(conn1.isValid());
+            Assert.IsTrue(conn1.IsValid());
         }
 
         [TestMethod]
@@ -26,7 +26,7 @@ namespace WinHL7ClientTest
         {
             TcpConnDestinationData conn1 = new TcpConnDestinationData(badIPString, badPortNumberString);
 
-            Assert.IsFalse(conn1.isValid());
+            Assert.IsFalse(conn1.IsValid());
         }
 
         [TestMethod]
@@ -34,7 +34,7 @@ namespace WinHL7ClientTest
         {
             TcpConnDestinationData conn1 = new TcpConnDestinationData(badIPOutOfRange, badPortNumberOutOfRange);
 
-            Assert.IsFalse(conn1.isValid());
+            Assert.IsFalse(conn1.IsValid());
         }
     }
 }
