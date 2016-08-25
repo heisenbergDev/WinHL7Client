@@ -140,7 +140,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ConnectionStatus.cs" />
-    <Compile Include="TcpConnDestinationData.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

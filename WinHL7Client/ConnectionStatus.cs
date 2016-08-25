@@ -22,19 +22,19 @@ namespace WinHL7Client
 
         public static String Status { get; set; }
 
-        public static void SetConnectionStatus(Exception exception)
+        public static void AddConnectionStatus(Exception exception)
         {
             AddStatus(exception.ToString());
         }
 
-        public static void SetConnectionStatus(String status)
+        public static void AddConnectionStatus(String status)
         {
             AddStatus(status);
         }
 
         private static void AddStatus(String newStatus)
         {
-            Status = Status + newStatus + "\n";
+            Status = newStatus + "\n" + Status;
         }
     }
 }

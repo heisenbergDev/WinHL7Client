@@ -19,11 +19,10 @@ namespace WinHL7Client
 
         private void sendMessage(object sender, RoutedEventArgs e)
         {
+            IPEndPoint detinationConn = CreateIPEndPoint(destinationIPTextbox.Text, destinationPortTextbox.Text);
             IMessage message = DecodeHL7Message(messageContent.Text);
-            TcpConnDestinationData destinationConn = new TcpConnDestinationData(destinationIPTextbox.Text, destinationPortTextbox.Text);
-            messageReceivedTextbox.Text = destinationConn.ToString();
 
-            String ackResponse = sendHL7MessageToIpPort(destinationConn, message);
+            String ackResponse = sendHL7MessageToIpPort(detinationConn, message);
 
             if (String.IsNullOrEmpty(ackResponse))
             {
@@ -37,22 +36,22 @@ namespace WinHL7Client
 
         }
 
-        private String sendHL7MessageToIpPort(TcpConnDestinationData destinationConn, IMessage message)
+        private String sendHL7MessageToIpPort(IPEndPoint destinationConn, IMessage message)
         {
             String ackReceived = null;
 
-            if ((destinationConn.IsValid()) && (message != null))
+            if ((destinationConn != null) && (message != null))
             {
                 try
                 {
-                    SimpleMLLPClient mllpClient = new SimpleMLLPClient(destinationConn.Ip, destinationConn.Port);
+                    SimpleMLLPClient mllpClient = new SimpleMLLPClient(destinationConn.Address.ToString(), destinationConn.Port);
                     IMessage response = mllpClient.SendHL7Message(message);
                     ackReceived = EncodeHL7Message(response);
                     mllpClient.Disconnect();
                 }
                 catch (Exception e)
                 {
-                    ConnectionStatus.SetConnectionStatus(e);
+                    ConnectionStatus.AddConnectionStatus(e);
                     ShowConnectionStatus(ConnectionStatus.Status);
                 }
 
@@ -65,7 +64,15 @@ namespace WinHL7Client
             PipeParser parser = new PipeParser();
             String encodedMessage = null;
 
-            if (iMessage != null) encodedMessage = parser.Encode(iMessage);
+            try
+            {
+                encodedMessage = parser.Encode(iMessage);
+            }
+            catch (Exception e)
+            {
+                ConnectionStatus.AddConnectionStatus(e);
+                ShowConnectionStatus(ConnectionStatus.Status);
+            }
 
             return encodedMessage;
         }
@@ -75,9 +82,34 @@ namespace WinHL7Client
             PipeParser parser = new PipeParser();
             IMessage decodedMessage = null;
 
-            if (!String.IsNullOrEmpty(message)) decodedMessage = parser.Parse(message);
+            try
+            {
+                decodedMessage = parser.Parse(message);
+            }
+            catch (Exception e)
+            {
+                ConnectionStatus.AddConnectionStatus(e);
+                ShowConnectionStatus(ConnectionStatus.Status);
+            }
 
             return decodedMessage;
+        }
+
+        private IPEndPoint CreateIPEndPoint(String textIp, String textPort)
+        {
+            IPEndPoint destinationConn = null;
+            try
+            {
+                IPAddress destinationIp = IPAddress.Parse(textIp);
+                int destinationPort = int.Parse(textPort);
+                destinationConn = new IPEndPoint(destinationIp, destinationPort);
+            }
+            catch (Exception e)
+            {
+                ConnectionStatus.AddConnectionStatus(e);
+                ShowConnectionStatus(ConnectionStatus.Status);
+            }
+            return destinationConn;
         }
 
         private void ShowConnectionStatus(String textToShow)
