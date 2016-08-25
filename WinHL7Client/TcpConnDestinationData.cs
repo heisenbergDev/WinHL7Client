@@ -13,26 +13,26 @@ namespace WinHL7Client
 
         public int Port { get; set; }
 
-        public TcpConnDestinationData(String Ip, String Port)
+        public TcpConnDestinationData(String ip, String port)
         {
             int portNumber;
-            if (Int32.TryParse(Port, out portNumber) && validateIpAndPort(Ip, portNumber))
+            if (Int32.TryParse(port, out portNumber) && ValidateIpAndPort(ip, portNumber))
             {
-                init(Ip, portNumber);
+                Init(ip, portNumber);
             }
 
         }
 
-        private void init(String Ip, int Port)
+        private void Init(String Ip, int Port)
         {
 
             this.Ip = Ip;
             this.Port = Port;
         }
 
-        public Boolean isValid()
+        public Boolean IsValid()
         {
-            if (validateIpAndPort(this.Ip, this.Port))
+            if (ValidateIpAndPort(this.Ip, this.Port))
             {
                 return true;
             }
@@ -40,9 +40,9 @@ namespace WinHL7Client
 
         }
 
-        private Boolean validateIpAndPort(String Ip, int Port)
+        private Boolean ValidateIpAndPort(String Ip, int Port)
         {
-            if (checkIpAddress(Ip) && (Port > 0) && (Port < 65536))
+            if (CheckIpAddress(Ip) && (Port > 0) && (Port < 65536))
             {
                 return true;
             }
@@ -50,7 +50,7 @@ namespace WinHL7Client
 
         }
 
-        private Boolean checkIpAddress(String ip)
+        private Boolean CheckIpAddress(String ip)
         {
             IPAddress ipParsed;
             if (!(String.IsNullOrEmpty(ip)) && (IPAddress.TryParse(ip, out ipParsed)))

@@ -5,16 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WinHL7Client"
         mc:Ignorable="d"
-        Title="HL7 Message Sender" Height="450" Width="525">
+        Title="HL7 Message Sender" Height="484.119" Width="734.324">
     <Grid>
-        <Button x:Name="button" Content="Send" HorizontalAlignment="Left" Margin="231,378,0,0" VerticalAlignment="Top" Width="75" Click="sendMessage"/>
-        <TextBox x:Name="messageContent" HorizontalAlignment="Left" Height="167" Margin="25,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="466" VerticalScrollBarVisibility="Auto" AcceptsReturn="True"/>
-        <Label x:Name="Header_Text" Content="Copy&amp;Paste HL7 message to send:" HorizontalAlignment="Left" Margin="44,19,0,0" VerticalAlignment="Top" Height="26" Width="228" FontWeight="Bold"/>
-        <TextBox x:Name="destinationIP" HorizontalAlignment="Left" Height="23" Margin="152,339,0,0" TextWrapping="Wrap" Text="192.168.179.1" VerticalAlignment="Top" Width="154" UndoLimit="98" ToolTip="Destination IP where the message must be sent."/>
-        <TextBox x:Name="destinationPort" HorizontalAlignment="Left" Height="23" Margin="437,339,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="43" ToolTip="Destination Port where the message must be sent." Text="9999"/>
-        <Label x:Name="label" Content="Destination IP:" HorizontalAlignment="Left" Margin="35,337,0,0" VerticalAlignment="Top" Width="117"/>
-        <Label x:Name="label_Copy" Content="Destination Port:" HorizontalAlignment="Left" Margin="329,339,0,0" VerticalAlignment="Top" Width="108"/>
-        <TextBox x:Name="messageReceivedTextbox" HorizontalAlignment="Left" Height="71" Margin="25,261,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="466" VerticalScrollBarVisibility="Auto" AcceptsReturn="True"/>
-        <Label x:Name="FooterReceivedText" Content="Received HL7 message:" HorizontalAlignment="Left" Margin="44,230,0,0" VerticalAlignment="Top" Height="26" Width="168" FontWeight="Bold"/>
+        <Button x:Name="sendButton" Content="Send" HorizontalAlignment="Left" Margin="329,422,0,0" VerticalAlignment="Top" Width="75" Click="sendMessage"/>
+        <TextBox x:Name="messageContent" HorizontalAlignment="Left" Height="144" Margin="25,36,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="673" VerticalScrollBarVisibility="Auto" AcceptsReturn="True"/>
+        <Label x:Name="messageToSendLabel" Content="Copy&amp;Paste HL7 message to send:" HorizontalAlignment="Left" Margin="44,10,0,0" VerticalAlignment="Top" Height="26" Width="228" FontWeight="Bold"/>
+        <TextBox x:Name="destinationIPTextbox" HorizontalAlignment="Left" Height="23" Margin="135,388,0,0" TextWrapping="Wrap" Text="192.168.179.1" VerticalAlignment="Top" Width="100" UndoLimit="98" ToolTip="Destination IP where the message must be sent."/>
+        <TextBox x:Name="destinationPortTextbox" HorizontalAlignment="Left" Height="23" Margin="354,388,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="43" ToolTip="Destination Port where the message must be sent." Text="9999"/>
+        <Label x:Name="detinationIpLabel" Content="Destination IP:" HorizontalAlignment="Left" Margin="44,385,0,0" VerticalAlignment="Top" Width="86"/>
+        <Label x:Name="destinationPortLabel" Content="Destination Port:" HorizontalAlignment="Left" Margin="251,387,0,0" VerticalAlignment="Top" Width="98"/>
+        <TextBox x:Name="messageReceivedTextbox" HorizontalAlignment="Left" Height="71" Margin="25,308,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="673" VerticalScrollBarVisibility="Auto" AcceptsReturn="True"/>
+        <Label x:Name="receivedMessageLabel" Content="Received HL7 message:" HorizontalAlignment="Left" Margin="44,282,0,0" VerticalAlignment="Top" Height="26" Width="168" FontWeight="Bold"/>
+        <Label x:Name="connectionLogLabel" Content="Connection log:" HorizontalAlignment="Left" Margin="44,185,0,0" VerticalAlignment="Top" Height="26" Width="168" FontWeight="Bold"/>
+        <TextBox x:Name="connectionLogTextBox" HorizontalAlignment="Left" Height="71" Margin="25,211,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="673" VerticalScrollBarVisibility="Auto" AcceptsReturn="True"/>
     </Grid>
 </Window>

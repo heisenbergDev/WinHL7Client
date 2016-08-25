@@ -19,8 +19,8 @@ namespace WinHL7Client
 
         private void sendMessage(object sender, RoutedEventArgs e)
         {
-            IMessage message = decodeHL7Message(messageContent.Text);
-            TcpConnDestinationData destinationConn = new TcpConnDestinationData(destinationIP.Text, destinationPort.Text);
+            IMessage message = DecodeHL7Message(messageContent.Text);
+            TcpConnDestinationData destinationConn = new TcpConnDestinationData(destinationIPTextbox.Text, destinationPortTextbox.Text);
             messageReceivedTextbox.Text = destinationConn.ToString();
 
             String ackResponse = sendHL7MessageToIpPort(destinationConn, message);
@@ -41,17 +41,26 @@ namespace WinHL7Client
         {
             String ackReceived = null;
 
-            if ((destinationConn.isValid()) && (message != null))
+            if ((destinationConn.IsValid()) && (message != null))
             {
-                SimpleMLLPClient mllpClient = new SimpleMLLPClient(destinationConn.Ip, destinationConn.Port);
-                IMessage response = mllpClient.SendHL7Message(message);
-                ackReceived = encodeHL7Message(response);
-                mllpClient.Disconnect();
+                try
+                {
+                    SimpleMLLPClient mllpClient = new SimpleMLLPClient(destinationConn.Ip, destinationConn.Port);
+                    IMessage response = mllpClient.SendHL7Message(message);
+                    ackReceived = EncodeHL7Message(response);
+                    mllpClient.Disconnect();
+                }
+                catch (Exception e)
+                {
+                    ConnectionStatus.SetConnectionStatus(e);
+                    ShowConnectionStatus(ConnectionStatus.Status);
+                }
+
             }
             return ackReceived;
         }
 
-        private String encodeHL7Message(IMessage iMessage)
+        private String EncodeHL7Message(IMessage iMessage)
         {
             PipeParser parser = new PipeParser();
             String encodedMessage = null;
@@ -61,7 +70,7 @@ namespace WinHL7Client
             return encodedMessage;
         }
 
-        private IMessage decodeHL7Message(String message)
+        private IMessage DecodeHL7Message(String message)
         {
             PipeParser parser = new PipeParser();
             IMessage decodedMessage = null;
@@ -69,6 +78,14 @@ namespace WinHL7Client
             if (!String.IsNullOrEmpty(message)) decodedMessage = parser.Parse(message);
 
             return decodedMessage;
+        }
+
+        private void ShowConnectionStatus(String textToShow)
+        {
+            if (textToShow != null)
+            {
+                connectionLogTextBox.Text = textToShow;
+            }
         }
     }
 }
