@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WinHL7Client"
         mc:Ignorable="d"
+        ResizeMode="NoResize"
         Title="HL7 Message Sender" Height="484.119" Width="734.324">
     <Grid>
         <Button x:Name="sendButton" Content="Send" HorizontalAlignment="Left" Margin="329,422,0,0" VerticalAlignment="Top" Width="75" Click="sendMessage"/>
