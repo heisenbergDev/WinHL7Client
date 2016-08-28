@@ -140,6 +140,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ConnectionStatus.cs" />
+    <Compile Include="MLLPConectorHL7Message.cs" />
+    <Compile Include="TransformHL7Message.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

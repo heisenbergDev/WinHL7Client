@@ -1,5 +1,4 @@
 ﻿using NHapi.Base.Model;
-using NHapi.Base.Parser;
 using NHapiTools.Base.Net;
 using System;
 using System.Net;
@@ -19,102 +18,26 @@ namespace WinHL7Client
 
         private void sendMessage(object sender, RoutedEventArgs e)
         {
-            IPEndPoint destinationConn = CreateIPEndPoint(destinationIPTextbox.Text, destinationPortTextbox.Text);
-            IMessage message = DecodeHL7Message(messageContent.Text);
+            MLLPConectorHL7Message mllpConectorHL7Message = new MLLPConectorHL7Message(destinationIPTextbox.Text, destinationPortTextbox.Text, TransformHL7Message.DecodeHL7Message(messageContent.Text));
 
-            String ackResponse = sendHL7MessageToIpPort(destinationConn, message);
+            String ackResponse = mllpConectorHL7Message.sendHL7Message();
 
             if (String.IsNullOrEmpty(ackResponse))
             {
                 messageReceivedTextbox.Text = @"No message received!!";
+                ShowConnectionStatus(false);
             }
             else
             {
                 messageReceivedTextbox.Text = ackResponse;
-                ShowConnectionStatus(null);
+                ShowConnectionStatus(true);
             }
 
         }
 
-        private String sendHL7MessageToIpPort(IPEndPoint destinationConn, IMessage message)
+        private void ShowConnectionStatus(Boolean success)
         {
-            String ackReceived = null;
-
-            if ((destinationConn != null) && (message != null))
-            {
-                try
-                {
-                    SimpleMLLPClient mllpClient = new SimpleMLLPClient(destinationConn.Address.ToString(), destinationConn.Port);
-                    IMessage response = mllpClient.SendHL7Message(message);
-                    ackReceived = EncodeHL7Message(response);
-                    mllpClient.Disconnect();
-                }
-                catch (Exception e)
-                {
-                    ShowConnectionStatus(e);
-                }
-
-            }
-            return ackReceived;
-        }
-
-        private String EncodeHL7Message(IMessage iMessage)
-        {
-            PipeParser parser = new PipeParser();
-            String encodedMessage = null;
-
-            try
-            {
-                encodedMessage = parser.Encode(iMessage);
-            }
-            catch (Exception e)
-            {
-                ShowConnectionStatus(e);
-            }
-
-            return encodedMessage;
-        }
-
-        private IMessage DecodeHL7Message(String message)
-        {
-            PipeParser parser = new PipeParser();
-            IMessage decodedMessage = null;
-
-            try
-            {
-                decodedMessage = parser.Parse(message);
-            }
-            catch (Exception e)
-            {
-                ShowConnectionStatus(e);
-            }
-
-            return decodedMessage;
-        }
-
-        private IPEndPoint CreateIPEndPoint(String textIp, String textPort)
-        {
-            IPEndPoint destinationConn = null;
-            try
-            {
-                IPAddress destinationIp = IPAddress.Parse(textIp);
-                int destinationPort = int.Parse(textPort);
-                destinationConn = new IPEndPoint(destinationIp, destinationPort);
-            }
-            catch (Exception e)
-            {
-                ShowConnectionStatus(e);
-            }
-            return destinationConn;
-        }
-
-        private void ShowConnectionStatus(Exception exception)
-        {
-            if (exception != null)
-            {
-                ConnectionStatus.AddConnectionStatus(exception);
-            }
-            else
+            if (success)
             {
                 ConnectionStatus.CleanConnectionStatus();
             }
